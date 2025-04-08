@@ -32,7 +32,7 @@ export default defineConfig({
   publicDir: 'public',
   resolve: {
     alias: {
-      '/src/image': '/image'
+      '/src/image': './src/image'
     }
   },
   base: './' // GitHub Pages 배포를 위한 상대 경로 설정

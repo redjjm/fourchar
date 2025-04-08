@@ -12,13 +12,13 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
     <div className="flex flex-col items-center justify-center min-h-screen bg-kid-bg confetti-bg font-kid relative overflow-hidden">
       {/* 캐릭터 이미지 배경 */}
       <div className="absolute -left-8 bottom-0 w-1/4 h-auto z-0 opacity-85">
-        <img src="/src/image/hero/hero-1.png" alt="캐릭터 1" className="object-contain" />
+        <img src="./image/hero/hero-1.png" alt="캐릭터 1" className="object-contain" />
       </div>
       <div className="absolute -right-8 bottom-0 w-1/4 h-auto z-0 opacity-85">
-        <img src="/src/image/hero/hero-3.png" alt="캐릭터 3" className="object-contain" />
+        <img src="./image/hero/hero-3.png" alt="캐릭터 3" className="object-contain" />
       </div>
       <div className="absolute top-0 right-1/4 w-1/5 h-auto z-0 opacity-70">
-        <img src="/src/image/hero/hero-2.png" alt="캐릭터 2" className="object-contain" />
+        <img src="./image/hero/hero-2.png" alt="캐릭터 2" className="object-contain" />
       </div>
       
       <div className="w-full max-w-[1280px] mx-auto px-4 relative z-10">
@@ -41,7 +41,7 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
             </div>
             <div className="text-left">
               <h2 className="text-2xl font-bold text-kid-red mb-1">Level 1</h2>
-              <p className="text-kid-text">쉬운 문제 · 2지선다 · 5문제</p>
+              <p className="text-kid-text">쉬움 · 객관식 ·5문</p>
             </div>
           </button>
 
@@ -55,7 +55,7 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
             </div>
             <div className="text-left">
               <h2 className="text-2xl font-bold text-kid-teal mb-1">Level 2</h2>
-              <p className="text-kid-text">보통 문제 · 4지선다 · 10문제</p>
+              <p className="text-kid-text">보통 · 객관식 · 10문</p>
             </div>
           </button>
 
@@ -69,7 +69,7 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
             </div>
             <div className="text-left">
               <h2 className="text-2xl font-bold text-kid-purple mb-1">Level 3</h2>
-              <p className="text-kid-text">어려운 문제 · 주관식 · 5문제</p>
+              <p className="text-kid-text">어려움 · 주관식 · 5문제</p>
             </div>
           </button>
 
