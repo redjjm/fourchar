@@ -60,7 +60,7 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
             </div>
             <div className="text-left">
               <h2 className="text-2xl font-bold text-kid-red mb-1">Level 1</h2>
-              <p className="text-kid-text">쉬운 문제 · 2지선다 · 20문제</p>
+              <p className="text-kid-text">쉬운 문제 · 2지선다 · 5문제</p>
             </div>
           </button>
 
@@ -74,7 +74,7 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
             </div>
             <div className="text-left">
               <h2 className="text-2xl font-bold text-kid-teal mb-1">Level 2</h2>
-              <p className="text-kid-text">보통 문제 · 4지선다 · 20문제</p>
+              <p className="text-kid-text">보통 문제 · 4지선다 · 10문제</p>
             </div>
           </button>
 
@@ -88,7 +88,7 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
             </div>
             <div className="text-left">
               <h2 className="text-2xl font-bold text-kid-purple mb-1">Level 3</h2>
-              <p className="text-kid-text">어려운 문제 · 주관식 · 10문제</p>
+              <p className="text-kid-text">어려운 문제 · 주관식 · 5문제</p>
             </div>
           </button>
 

@@ -61,7 +61,7 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
   const [hintPenalty, setHintPenalty] = useState<number>(0); // 힌트 패널티 추적용
   const [currentScore, setCurrentScore] = useState<number>(0); // 실제 획득한 점수만 표시
 
-  const totalQuestions = level === 1 || level === 2 ? 20 : 10;
+  const totalQuestions = level === 1 || level === 3 ? 5 : 10;
   const optionsCount = level === 1 ? 2 : level === 2 ? 4 : 0;
   const pointsPerQuestion = level === 3 ? 10 : 100 / totalQuestions; // Level 3은 각 문제당 10점
 
