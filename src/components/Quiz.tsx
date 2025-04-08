@@ -58,10 +58,12 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
   const [hintIndex, setHintIndex] = useState<number>(0);
   const [hintText, setHintText] = useState<string>('');
   const [inputValue, setInputValue] = useState<string>('');
+  const [hintPenalty, setHintPenalty] = useState<number>(0); // 힌트 패널티 추적용
+  const [currentScore, setCurrentScore] = useState<number>(0); // 실제 획득한 점수만 표시
 
   const totalQuestions = level === 1 || level === 2 ? 20 : 10;
   const optionsCount = level === 1 ? 2 : level === 2 ? 4 : 0;
-  const pointsPerQuestion = 100 / totalQuestions;
+  const pointsPerQuestion = level === 3 ? 10 : 100 / totalQuestions; // Level 3은 각 문제당 10점
 
   useEffect(() => {
     const shuffledData = shuffleArray(sajaData);
@@ -99,9 +101,35 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
     
     const hintTimer = setInterval(() => {
       setHintIndex(prevIndex => {
-        if (prevIndex < currentWord.length) {
-          const newHint = [...currentWord].slice(0, prevIndex + 1).map(getInitialConsonant).join('');
-          setHintText('힌트 : ' + newHint);
+        if (prevIndex < currentWord.length * 2) {
+          // 힌트 패널티 최대치(8개)까지만 적용
+          if (prevIndex < 8) {
+            // 초성 단계: 하나씩 보여주기
+            if (prevIndex < currentWord.length) {
+              const initialConsonants = [...currentWord].map((char, idx) => {
+                if (idx < prevIndex) {
+                  return getInitialConsonant(char);
+                } else {
+                  return '　'; // 공백 문자
+                }
+              }).join('');
+              setHintText('힌트(초성) : ' + initialConsonants);
+              
+              // 힌트 패널티 증가만 하고 점수 차감은 안 함
+              setHintPenalty(prev => Math.min(8, prev + 1));
+            } 
+            // 글자 하나씩 공개 단계
+            else {
+              const charIndex = prevIndex - currentWord.length;
+              const revealed = [...currentWord].slice(0, charIndex).join('');
+              const remaining = [...currentWord].slice(charIndex).map(getInitialConsonant).join('');
+              setHintText('힌트(글자) : ' + revealed + remaining);
+              
+              // 힌트 패널티 증가만 하고 점수 차감은 안 함
+              setHintPenalty(prev => Math.min(8, prev + 1));
+            }
+          }
+          
           return prevIndex + 1;
         }
         return prevIndex;
@@ -114,6 +142,7 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
   // 문제 변경 시 힌트 초기화
   useEffect(() => {
     setHintIndex(0);
+    setHintPenalty(0); // 힌트 패널티 초기화
     // 힌트 영역은 기본적으로 보이되, 초기에는 빈 초성으로 시작
     if (level === 3 && questions.length > 0) {
       setHintText('');
@@ -171,21 +200,26 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
     // Wait for animation
     await new Promise(resolve => setTimeout(resolve, correct ? 1000 : 3000));
 
-    const newScore = correct ? state.score + pointsPerQuestion : state.score;
+    // 정답이면 점수 추가
+    if (correct) {
+      setCurrentScore(prev => prev + pointsPerQuestion); // 획득한 점수 갱신
+    }
+    
     const newAnswers = [...state.answers, answer];
 
     if (state.currentQuestion + 1 >= totalQuestions) {
-      onComplete(Math.round(newScore));
+      onComplete(Math.round(currentScore + (correct ? pointsPerQuestion : 0))); // 최종 점수 전달
     } else {
       setState({
         currentQuestion: state.currentQuestion + 1,
-        score: newScore,
+        score: state.score + (correct ? pointsPerQuestion : 0), // 내부 점수 상태 유지 (기존 방식)
         answers: newAnswers,
         completed: false
       });
       setSelectedAnswer(null);
       setIsCorrect(null);
       setInputValue(''); // 다음 문제로 넘어갈 때 입력값 초기화
+      setHintPenalty(0); // 새 문제에서 힌트 패널티 초기화
     }
   };
 
@@ -210,7 +244,7 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
               </h2>
             </div>
             <span className="text-lg font-semibold text-blue-600">
-              점수: {Math.round(state.score)}
+              점수: {Math.round(currentScore)}
             </span>
           </div>
 
