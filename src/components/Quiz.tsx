@@ -249,9 +249,10 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
         <div className="kid-card bg-white p-6 rounded-2xl border-4 border-kid-yellow shadow-xl">
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-4">
-              <button
-                onClick={onBack}
+              <button 
+                onClick={onBack} 
                 className="kid-button p-3 bg-kid-red/10 text-kid-red rounded-full hover:bg-kid-red/20 transition-all"
+                aria-label="뒤로 가기"
               >
                 <ArrowLeft className="w-6 h-6" />
               </button>

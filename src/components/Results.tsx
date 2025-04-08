@@ -1,12 +1,13 @@
 import React from 'react';
-import { Trophy, Star, Home, Sparkles } from 'lucide-react';
+import { Trophy, Star, Home, Sparkles, ArrowLeft } from 'lucide-react';
 
 interface ResultsProps {
   score: number;
   onRestart: () => void;
+  onBack: () => void;
 }
 
-export function Results({ score, onRestart }: ResultsProps) {
+export function Results({ score, onRestart, onBack }: ResultsProps) {
   // 별 이미지를 동적으로 표시하기 위한 함수
   const renderStars = () => {
     // 점수를 100점 만점 기준으로 별 개수를 계산 (최대 5개)
@@ -85,6 +86,13 @@ export function Results({ score, onRestart }: ResultsProps) {
           >
             <Home className="w-5 h-5" />
             <span>다시 시작하기</span>
+          </button>
+          <button
+            onClick={onBack}
+            className="kid-button py-3 bg-kid-red/10 text-kid-red rounded-full hover:bg-kid-red/20 flex items-center justify-center gap-2"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>이전으로 돌아가기</span>
           </button>
         </div>
         

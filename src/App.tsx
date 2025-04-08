@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { QuizLevel, ScoreHistory } from './types';
 import { QuizLevelSelector } from './components/QuizLevel';
 import { Quiz } from './components/Quiz';
@@ -9,6 +9,34 @@ function App() {
   const [level, setLevel] = useState<QuizLevel | null>(null);
   const [score, setScore] = useState<number | null>(null);
   const [showHistory, setShowHistory] = useState(false);
+
+  const handleBack = useCallback(() => {
+    setLevel(null);
+    setScore(null);
+    setShowHistory(false);
+  }, []);
+
+  // 브라우저 뒤로가기 버튼 처리
+  useEffect(() => {
+    const handlePopState = () => {
+      // 메인화면이 아닌 경우에만 handleBack 실행
+      if (level !== null || score !== null || showHistory) {
+        handleBack();
+      } else {
+        // 메인화면에서는 뒤로가기 방지 (다시 히스토리 푸시)
+        window.history.pushState(null, '', window.location.pathname);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    // 히스토리 엔트리 추가 (항상 추가)
+    window.history.pushState(null, '', window.location.pathname);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [level, score, showHistory, handleBack]);
 
   const handleLevelSelect = (selectedLevel: QuizLevel) => {
     setLevel(selectedLevel);
@@ -37,12 +65,6 @@ function App() {
     setShowHistory(false);
   };
 
-  const handleBack = () => {
-    setLevel(null);
-    setScore(null);
-    setShowHistory(false);
-  };
-
   const handleViewHistory = () => {
     setShowHistory(true);
   };
@@ -52,7 +74,7 @@ function App() {
   }
 
   if (score !== null) {
-    return <Results score={score} onRestart={handleRestart} />;
+    return <Results score={score} onRestart={handleRestart} onBack={handleBack} />;
   }
 
   if (level === null) {
