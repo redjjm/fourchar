@@ -7,4 +7,14 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  build: {
+    assetsDir: 'assets',
+    copyPublicDir: true
+  },
+  publicDir: 'public',
+  resolve: {
+    alias: {
+      '/src/image': '/image'
+    }
+  }
 });

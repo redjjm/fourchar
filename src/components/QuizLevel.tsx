@@ -12,13 +12,13 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
     <div className="flex flex-col items-center justify-center min-h-screen bg-kid-bg confetti-bg font-kid relative overflow-hidden">
       {/* 캐릭터 이미지 배경 */}
       <div className="absolute -left-8 bottom-0 w-1/4 h-auto z-0 opacity-85">
-        <img src="/src/image/hero/hero-1.png" alt="캐릭터 1" className="object-contain" />
+        <img src="/image/hero/hero-1.png" alt="캐릭터 1" className="object-contain" />
       </div>
       <div className="absolute -right-8 bottom-0 w-1/4 h-auto z-0 opacity-85">
-        <img src="/src/image/hero/hero-3.png" alt="캐릭터 3" className="object-contain" />
+        <img src="/image/hero/hero-3.png" alt="캐릭터 3" className="object-contain" />
       </div>
       <div className="absolute top-0 right-1/4 w-1/5 h-auto z-0 opacity-70">
-        <img src="/src/image/hero/hero-2.png" alt="캐릭터 2" className="object-contain" />
+        <img src="/image/hero/hero-2.png" alt="캐릭터 2" className="object-contain" />
       </div>
       
       <div className="w-full max-w-[1280px] mx-auto px-4 relative z-10">

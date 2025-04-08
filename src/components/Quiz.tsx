@@ -231,7 +231,7 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
     <div className="min-h-screen bg-gradient-to-b from-kid-bg/50 to-kid-bg py-8 font-kid relative overflow-hidden">
       {/* 배경 캐릭터 이미지 */}
       <div className="absolute bottom-0 right-0 w-1/5 h-auto opacity-70 z-0">
-        <img src="/src/image/hero/hero-2.png" alt="캐릭터" className="object-contain" />
+        <img src="/image/hero/hero-2.png" alt="캐릭터" className="object-contain" />
       </div>
       
       <div className="w-full max-w-[1280px] mx-auto px-4 relative z-10">
