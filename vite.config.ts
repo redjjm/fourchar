@@ -16,5 +16,6 @@ export default defineConfig({
     alias: {
       '/src/image': '/image'
     }
-  }
+  },
+  base: './' // GitHub Pages 배포를 위한 상대 경로 설정
 });
