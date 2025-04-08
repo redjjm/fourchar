@@ -149,7 +149,23 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
     }
     // 입력값 초기화
     setInputValue('');
+    // 선택한 답변과 정답 여부 초기화
+    setSelectedAnswer(null);
+    setIsCorrect(null);
   }, [state.currentQuestion, level, questions]);
+
+  // 객관식 문제의 옵션 초기화
+  useEffect(() => {
+    if (level < 3 && questions.length > 0 && state.currentQuestion < questions.length) {
+      const allWords = sajaData.map(item => item.idiom);
+      const currentOptions = generateOptions(
+        questions[state.currentQuestion].word,
+        allWords,
+        optionsCount
+      );
+      setOptions(currentOptions);
+    }
+  }, [state.currentQuestion, level, questions, optionsCount]);
 
   const handleAnswer = async (answer: string) => {
     const currentQuestion = questions[state.currentQuestion];
@@ -229,11 +245,6 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-kid-bg/50 to-kid-bg py-8 font-kid relative overflow-hidden">
-      {/* 배경 캐릭터 이미지 */}
-      <div className="absolute bottom-0 right-0 w-1/5 h-auto opacity-70 z-0">
-        <img src="/image/hero/hero-2.png" alt="캐릭터" className="object-contain" />
-      </div>
-      
       <div className="w-full max-w-[1280px] mx-auto px-4 relative z-10">
         <div className="kid-card bg-white p-6 rounded-2xl border-4 border-kid-yellow shadow-xl">
           <div className="flex justify-between items-center mb-6">
@@ -256,17 +267,6 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
           </div>
 
           <div className="mb-6">
-            <div className="relative">
-              <img
-                src={`/image/saja/${currentQuestion.id}.png`}
-                alt="사자성어 이미지"
-                className="w-full h-[300px] object-contain mb-4 rounded-xl border-2 border-kid-teal/30 bg-kid-teal/5"
-              />
-              {/* 장식용 요소 */}
-              <div className="absolute -top-3 -right-3 w-12 h-12 bg-kid-yellow rounded-full flex items-center justify-center shadow-md transform rotate-12">
-                <span className="text-lg font-bold text-white">!</span>
-              </div>
-            </div>
             <div className="text-center my-4">
               <p className="text-xl text-kid-text font-bold mb-2 bg-kid-pink/10 py-2 px-4 rounded-xl inline-block">
                 다음 뜻을 가진 사자성어는 무엇일까요?
@@ -305,7 +305,7 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
 
                 return (
                   <button
-                    key={idx}
+                    key={`${state.currentQuestion}-${idx}`}
                     onClick={() => !selectedAnswer && handleAnswer(option)}
                     className={buttonClass}
                     disabled={!!selectedAnswer}
