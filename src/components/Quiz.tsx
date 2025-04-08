@@ -59,7 +59,7 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
   const [hintText, setHintText] = useState<string>('');
   const [inputValue, setInputValue] = useState<string>('');
 
-  const totalQuestions = level === 2 ? 25 : 20;
+  const totalQuestions = level === 1 || level === 2 ? 20 : 10;
   const optionsCount = level === 1 ? 2 : level === 2 ? 4 : 0;
   const pointsPerQuestion = 100 / totalQuestions;
 

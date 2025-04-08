@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, ArrowLeft, History } from 'lucide-react';
+import { BookOpen, ArrowLeft, History, Star, Award, Crown } from 'lucide-react';
 import { QuizLevel } from '../types';
 
 interface QuizLevelSelectorProps {
@@ -9,46 +9,67 @@ interface QuizLevelSelectorProps {
 
 export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSelectorProps) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-50 to-blue-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-kid-bg confetti-bg font-kid">
       <div className="w-full max-w-[1280px] mx-auto px-4">
-        <div className="text-center mb-8">
-          <BookOpen className="w-16 h-16 text-blue-600 mx-auto mb-4" />
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">사자성어 퀴즈</h1>
-          <p className="text-gray-600">난이도를 선택하세요</p>
+        <div className="text-center mb-8 animate-float">
+          <div className="w-24 h-24 bg-kid-yellow rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <BookOpen className="w-12 h-12 text-kid-text" />
+          </div>
+          <h1 className="text-5xl font-bold text-kid-purple mb-2">사자성어 퀴즈</h1>
+          <p className="text-2xl text-kid-text"> 풀어보세요!</p>
         </div>
         
-        <div className="grid gap-4 w-full max-w-md mx-auto">
+        <div className="grid gap-6 w-full max-w-md mx-auto">
           <button
             onClick={() => onSelectLevel(1)}
-            className="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all border border-blue-100 hover:border-blue-300"
+            className="kid-card p-6 bg-white hover:bg-kid-yellow/10 flex items-center space-x-4"
           >
-            <h2 className="text-xl font-bold text-gray-800 mb-2">Level 1</h2>
-            <p className="text-gray-600">2지선다 · 20문제</p>
+            <div className="w-16 h-16 rounded-full bg-kid-red flex items-center justify-center shadow-md">
+              <Star className="w-8 h-8 text-white" />
+            </div>
+            <div className="text-left">
+              <h2 className="text-2xl font-bold text-kid-red mb-1">Level 1</h2>
+              <p className="text-kid-text">쉬운 문제 · 2지선다 · 20문제</p>
+            </div>
           </button>
 
           <button
             onClick={() => onSelectLevel(2)}
-            className="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all border border-blue-100 hover:border-blue-300"
+            className="kid-card p-6 bg-white hover:bg-kid-teal/10 flex items-center space-x-4"
           >
-            <h2 className="text-xl font-bold text-gray-800 mb-2">Level 2</h2>
-            <p className="text-gray-600">4지선다 · 25문제</p>
+            <div className="w-16 h-16 rounded-full bg-kid-teal flex items-center justify-center shadow-md">
+              <Award className="w-8 h-8 text-white" />
+            </div>
+            <div className="text-left">
+              <h2 className="text-2xl font-bold text-kid-teal mb-1">Level 2</h2>
+              <p className="text-kid-text">보통 문제 · 4지선다 · 20문제</p>
+            </div>
           </button>
 
           <button
             onClick={() => onSelectLevel(3)}
-            className="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all border border-blue-100 hover:border-blue-300"
+            className="kid-card p-6 bg-white hover:bg-kid-purple/10 flex items-center space-x-4"
           >
-            <h2 className="text-xl font-bold text-gray-800 mb-2">Level 3</h2>
-            <p className="text-gray-600">주관식 · 20문제</p>
+            <div className="w-16 h-16 rounded-full bg-kid-purple flex items-center justify-center shadow-md">
+              <Crown className="w-8 h-8 text-white" />
+            </div>
+            <div className="text-left">
+              <h2 className="text-2xl font-bold text-kid-purple mb-1">Level 3</h2>
+              <p className="text-kid-text">어려운 문제 · 주관식 · 10문제</p>
+            </div>
           </button>
 
           <button
             onClick={onViewHistory}
-            className="p-4 mt-4 bg-gray-50 rounded-lg shadow hover:shadow-md transition-all border border-gray-200 hover:border-gray-300 flex items-center justify-center gap-2"
+            className="kid-button mt-6 p-4 bg-kid-green text-white rounded-full flex items-center justify-center gap-2 mx-auto w-48"
           >
             <History className="w-5 h-5" />
-            <span>기록 보기</span>
+            <span className="text-lg">기록 보기</span>
           </button>
+        </div>
+        
+        <div className="mt-12 text-center">
+          <p className="text-kid-text/70 text-sm">RinPapa 초등 사자성어 퀴즈</p>
         </div>
       </div>
     </div>
