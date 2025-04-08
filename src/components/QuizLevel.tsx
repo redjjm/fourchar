@@ -33,9 +33,10 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
         <div className="grid gap-6 w-full max-w-md mx-auto">
           <button
             onClick={() => onSelectLevel(1)}
-            className="kid-card p-6 bg-white hover:bg-kid-yellow/10 flex items-center space-x-4"
+            className="kid-card p-6 bg-white hover:bg-kid-yellow/10 flex items-center space-x-4 transform transition-all duration-300 hover:scale-105 hover:shadow-xl border-4 border-kid-yellow relative overflow-hidden"
           >
-            <div className="w-16 h-16 rounded-full bg-kid-red flex items-center justify-center shadow-md">
+            <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-kid-yellow/20 via-transparent to-transparent"></span>
+            <div className="w-16 h-16 rounded-full bg-kid-red flex items-center justify-center shadow-md animate-pulse">
               <Star className="w-8 h-8 text-white" />
             </div>
             <div className="text-left">
@@ -46,9 +47,10 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
 
           <button
             onClick={() => onSelectLevel(2)}
-            className="kid-card p-6 bg-white hover:bg-kid-teal/10 flex items-center space-x-4"
+            className="kid-card p-6 bg-white hover:bg-kid-teal/10 flex items-center space-x-4 transform transition-all duration-300 hover:scale-105 hover:shadow-xl border-4 border-kid-teal relative overflow-hidden"
           >
-            <div className="w-16 h-16 rounded-full bg-kid-teal flex items-center justify-center shadow-md">
+            <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-kid-teal/20 via-transparent to-transparent"></span>
+            <div className="w-16 h-16 rounded-full bg-kid-teal flex items-center justify-center shadow-md animate-pulse">
               <Award className="w-8 h-8 text-white" />
             </div>
             <div className="text-left">
@@ -59,9 +61,10 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
 
           <button
             onClick={() => onSelectLevel(3)}
-            className="kid-card p-6 bg-white hover:bg-kid-purple/10 flex items-center space-x-4"
+            className="kid-card p-6 bg-white hover:bg-kid-purple/10 flex items-center space-x-4 transform transition-all duration-300 hover:scale-105 hover:shadow-xl border-4 border-kid-purple relative overflow-hidden"
           >
-            <div className="w-16 h-16 rounded-full bg-kid-purple flex items-center justify-center shadow-md">
+            <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-kid-purple/20 via-transparent to-transparent"></span>
+            <div className="w-16 h-16 rounded-full bg-kid-purple flex items-center justify-center shadow-md animate-pulse">
               <Crown className="w-8 h-8 text-white" />
             </div>
             <div className="text-left">
@@ -72,7 +75,7 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
 
           <button
             onClick={onViewHistory}
-            className="kid-button mt-6 p-4 bg-kid-green text-white rounded-full flex items-center justify-center gap-2 mx-auto w-48"
+            className="kid-button mt-6 p-4 bg-kid-green text-white rounded-full flex items-center justify-center gap-2 mx-auto w-48 transition-all duration-300 hover:scale-105 hover:shadow-xl"
           >
             <History className="w-5 h-5" />
             <span className="text-lg">기록 보기</span>

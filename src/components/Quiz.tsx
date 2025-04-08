@@ -228,60 +228,79 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
   const currentQuestion = questions[state.currentQuestion];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 py-8">
-      <div className="w-full max-w-[1280px] mx-auto px-4">
-        <div className="bg-white rounded-lg shadow-lg p-6">
+    <div className="min-h-screen bg-gradient-to-b from-kid-bg/50 to-kid-bg py-8 font-kid relative overflow-hidden">
+      {/* 배경 캐릭터 이미지 */}
+      <div className="absolute bottom-0 right-0 w-1/5 h-auto opacity-70 z-0">
+        <img src="/src/image/hero/hero-2.png" alt="캐릭터" className="object-contain" />
+      </div>
+      
+      <div className="w-full max-w-[1280px] mx-auto px-4 relative z-10">
+        <div className="kid-card bg-white p-6 rounded-2xl border-4 border-kid-yellow shadow-xl">
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-4">
               <button
                 onClick={onBack}
-                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                className="kid-button p-3 bg-kid-red/10 text-kid-red rounded-full hover:bg-kid-red/20 transition-all"
               >
-                <ArrowLeft className="w-6 h-6 text-gray-600" />
+                <ArrowLeft className="w-6 h-6" />
               </button>
-              <h2 className="text-2xl font-bold text-gray-800">
+              <h2 className="text-2xl font-bold text-kid-purple">
                 문제 {state.currentQuestion + 1} / {totalQuestions}
               </h2>
             </div>
-            <span className="text-lg font-semibold text-blue-600">
-              점수: {Math.round(currentScore)}
-            </span>
+            <div className="bg-kid-purple/10 py-2 px-4 rounded-full">
+              <span className="text-lg font-semibold text-kid-purple">
+                점수: {Math.round(currentScore)}
+              </span>
+            </div>
           </div>
 
           <div className="mb-6">
-            <img
-              src={`/image/saja/${currentQuestion.id}.png`}
-              alt="사자성어 이미지"
-              className="w-full h-[360px] object-contain mb-4"
-            />
-            <p className="text-xl text-gray-700 mb-4">
-              다음 뜻을 가진 사자성어는 무엇일까요?
-            </p>
-            <p className="text-lg text-gray-600 mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-              {currentQuestion.meaning}
-            </p>
-            {level === 3 && (
-              <p className="text-lg font-medium text-blue-600 mt-2 mb-4 p-2 bg-blue-50 rounded-lg">
-                {hintText || '5초마다 초성이 제공됩니다.'}
+            <div className="relative">
+              <img
+                src={`/image/saja/${currentQuestion.id}.png`}
+                alt="사자성어 이미지"
+                className="w-full h-[300px] object-contain mb-4 rounded-xl border-2 border-kid-teal/30 bg-kid-teal/5"
+              />
+              {/* 장식용 요소 */}
+              <div className="absolute -top-3 -right-3 w-12 h-12 bg-kid-yellow rounded-full flex items-center justify-center shadow-md transform rotate-12">
+                <span className="text-lg font-bold text-white">!</span>
+              </div>
+            </div>
+            <div className="text-center my-4">
+              <p className="text-xl text-kid-text font-bold mb-2 bg-kid-pink/10 py-2 px-4 rounded-xl inline-block">
+                다음 뜻을 가진 사자성어는 무엇일까요?
               </p>
+            </div>
+            <div className="p-4 bg-gradient-to-r from-kid-purple/10 to-kid-teal/10 rounded-xl border-2 border-kid-purple/20 shadow-inner">
+              <p className="text-lg text-kid-text">
+                {currentQuestion.meaning}
+              </p>
+            </div>
+            {level === 3 && (
+              <div className="mt-4 mb-2">
+                <p className="text-lg font-medium text-kid-teal p-3 bg-kid-teal/10 rounded-xl border-2 border-kid-teal/20 text-center">
+                  {hintText || '5초마다 초성이 제공됩니다.'}
+                </p>
+              </div>
             )}
           </div>
 
           {level < 3 ? (
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 gap-4">
               {options.map((option, idx) => {
-                let buttonClass = "p-4 text-left rounded-lg border transition-colors ";
+                let buttonClass = "p-4 text-lg text-left rounded-xl border-3 transition-all duration-300 transform hover:scale-102 ";
                 
                 if (selectedAnswer) {
                   if (option === currentQuestion.word) {
-                    buttonClass += "bg-green-100 border-green-500 text-green-700 ";
+                    buttonClass += "bg-kid-green/20 border-kid-green text-kid-text ";
                   } else if (option === selectedAnswer && option !== currentQuestion.word) {
-                    buttonClass += "bg-red-100 border-red-500 text-red-700 ";
+                    buttonClass += "bg-kid-red/20 border-kid-red text-kid-text ";
                   } else {
                     buttonClass += "border-gray-200 opacity-50 ";
                   }
                 } else {
-                  buttonClass += "border-gray-200 hover:border-blue-500 hover:bg-blue-50 ";
+                  buttonClass += "border-kid-yellow hover:border-kid-purple hover:bg-kid-purple/10 ";
                 }
 
                 return (
@@ -294,10 +313,10 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
                     <div className="flex items-center justify-between">
                       <span>{option}</span>
                       {selectedAnswer && option === currentQuestion.word && (
-                        <span className="text-green-600">✓</span>
+                        <span className="text-kid-green text-2xl">✓</span>
                       )}
                       {selectedAnswer && option === selectedAnswer && option !== currentQuestion.word && (
-                        <span className="text-red-600">✗</span>
+                        <span className="text-kid-red text-2xl">✗</span>
                       )}
                     </div>
                   </button>
@@ -309,12 +328,12 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
               <input
                 type="text"
                 placeholder="사자성어를 입력하세요"
-                className={`w-full p-3 rounded-lg transition-colors outline-none ${
+                className={`w-full p-4 rounded-xl text-lg transition-all duration-300 outline-none ${
                   isCorrect === null
-                    ? 'border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 animate-pulse-border'
+                    ? 'border-3 border-kid-yellow focus:border-kid-teal focus:ring-2 focus:ring-kid-teal/50 animate-pulse-border'
                     : isCorrect
-                    ? 'border-green-500 bg-green-50'
-                    : 'border-red-500 bg-red-50'
+                    ? 'border-3 border-kid-green bg-kid-green/10'
+                    : 'border-3 border-kid-red bg-kid-red/10'
                 }`}
                 onKeyPress={(e) => {
                   if (e.key === 'Enter' && !selectedAnswer) {
@@ -327,9 +346,9 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
                 onChange={(e) => setInputValue(e.target.value)}
                 autoFocus
               />
-              <div className="mt-3">
+              <div className="mt-4">
                 <button
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg transition-colors text-lg font-medium"
+                  className="w-full kid-button bg-kid-purple hover:bg-kid-purple/90 text-white py-4 rounded-xl transition-all duration-300 text-lg font-medium transform hover:scale-102 hover:shadow-lg"
                   onClick={() => {
                     if (!selectedAnswer) {
                       handleSubmit(inputValue);
@@ -337,7 +356,7 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
                   }}
                   disabled={!!selectedAnswer}
                 >
-                  Enter
+                  확인하기
                 </button>
               </div>
             </div>
@@ -352,13 +371,21 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
 const styleTag = document.createElement('style');
 styleTag.textContent = `
   @keyframes pulse-border {
-    0% { border-color: rgba(59, 130, 246, 0.5); }
-    50% { border-color: rgba(59, 130, 246, 1); }
-    100% { border-color: rgba(59, 130, 246, 0.5); }
+    0% { border-color: rgba(255, 209, 102, 0.7); }
+    50% { border-color: rgba(255, 209, 102, 1); }
+    100% { border-color: rgba(255, 209, 102, 0.7); }
   }
   
   .animate-pulse-border {
     animation: pulse-border 2s infinite;
+  }
+  
+  .transform {
+    transition: transform 0.3s ease;
+  }
+  
+  .hover\:scale-102:hover {
+    transform: scale(1.02);
   }
 `;
 document.head.appendChild(styleTag);
