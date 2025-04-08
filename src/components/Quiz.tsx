@@ -250,7 +250,7 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
 
           <div className="mb-6">
             <img
-              src={`/images/${currentQuestion.id}.png`}
+              src={`/image/saja/${currentQuestion.id}.png`}
               alt="사자성어 이미지"
               className="w-full h-[360px] object-contain mb-4"
             />
