@@ -1,20 +1,80 @@
-import React from 'react';
-import { ArrowLeft, Trophy, Star, Clock, Calendar, Award, BarChart } from 'lucide-react';
-import { QuizLevel, ScoreHistory } from '../types';
+import React, { useState, useEffect } from 'react';
+import { ArrowLeft, Trophy, Star, Clock, Calendar, Award, BarChart, Coins } from 'lucide-react';
+import { QuizLevel, ScoreHistory, SoundType } from '../types';
+import { playSound } from '../utils/sounds';
+import { SoundControl } from './SoundControl';
 
 interface ScoreHistoryViewProps {
   onBack: () => void;
 }
 
-export function ScoreHistoryView({ onBack }: ScoreHistoryViewProps) {
-  const [history, setHistory] = React.useState<ScoreHistory[]>([]);
+// 동전 컴포넌트
+interface CoinProps {
+  delay: number;
+  size: number;
+  position: { x: string; y: string; };
+}
 
-  React.useEffect(() => {
+// 폭죽 동전 컴포넌트
+interface ExplodeCoinProps {
+  delay: number;
+  size: number;
+  x: number;
+  y: number;
+  angle: number;
+}
+
+const CoinAnimation = ({ delay, size, position }: CoinProps) => {
+  return (
+    <div 
+      className="absolute animate-float" 
+      style={{
+        left: position.x,
+        top: position.y,
+        animationDelay: `${delay}s`,
+        fontSize: `${size}px`,
+        zIndex: 5
+      }}
+    >
+      <Coins className="text-kid-yellow fill-kid-yellow" />
+    </div>
+  );
+};
+
+const ExplodeCoinAnimation = ({ delay, size, x, y, angle }: ExplodeCoinProps) => {
+  return (
+    <div 
+      className="absolute animate-explode" 
+      style={{
+        left: '50%',
+        top: '50%',
+        animationDelay: `${delay}s`,
+        fontSize: `${size}px`,
+        zIndex: 5,
+        '--x': `${x}px`,
+        '--y': `${y}px`,
+        '--r': `${angle}deg`,
+      } as React.CSSProperties}
+    >
+      <Coins className="text-kid-yellow fill-kid-yellow" />
+    </div>
+  );
+};
+
+export function ScoreHistoryView({ onBack }: ScoreHistoryViewProps) {
+  const [history, setHistory] = useState<ScoreHistory[]>([]);
+  const [claimingIndex, setClaimingIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    loadHistory();
+  }, []);
+
+  const loadHistory = () => {
     const savedHistory = localStorage.getItem('quizHistory');
     if (savedHistory) {
       setHistory(JSON.parse(savedHistory));
     }
-  }, []);
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('ko-KR', {
@@ -53,8 +113,36 @@ export function ScoreHistoryView({ onBack }: ScoreHistoryViewProps) {
     }
   };
 
+  // 용돈 보상 획득하기
+  const claimReward = (index: number) => {
+    setClaimingIndex(index);
+    
+    // 코인 사운드 재생
+    playSound(SoundType.COLLECT_COIN);
+    
+    // 상태 업데이트
+    setTimeout(() => {
+      const updatedHistory = [...history];
+      updatedHistory[index] = {
+        ...updatedHistory[index],
+        rewardClaimed: true
+      };
+      
+      setHistory(updatedHistory);
+      localStorage.setItem('quizHistory', JSON.stringify(updatedHistory));
+      
+      // 애니메이션 종료 후 상태 초기화
+      setTimeout(() => {
+        setClaimingIndex(null);
+      }, 1000);
+    }, 500);
+  };
+
   return (
     <div className="min-h-screen bg-kid-bg confetti-bg py-8 font-kid">
+      {/* 사운드 컨트롤 */}
+      <SoundControl />
+      
       <div className="w-full max-w-[1280px] mx-auto px-4">
         <div className="bg-white kid-card p-6">
           <div className="flex items-center gap-4 mb-6">
@@ -77,7 +165,7 @@ export function ScoreHistoryView({ onBack }: ScoreHistoryViewProps) {
             </div>
           ) : (
             <div className="space-y-4">
-              {history.map((record) => (
+              {history.map((record, index) => (
                 <div
                   key={record.id}
                   className="p-4 bg-white rounded-xl border-2 border-kid-pink/30 hover:border-kid-pink transition-colors relative overflow-hidden"
@@ -101,11 +189,37 @@ export function ScoreHistoryView({ onBack }: ScoreHistoryViewProps) {
                       </div>
                     </div>
                     
-                    <div className="bg-kid-purple/10 px-4 py-2 rounded-full">
-                      <div className="text-xl font-bold text-kid-purple flex items-center gap-1">
-                        <Trophy className="w-5 h-5" />
-                        <span>{record.score}점</span>
+                    <div className="flex flex-col items-end gap-2">
+                      <div className="bg-kid-purple/10 px-4 py-2 rounded-full">
+                        <div className="text-xl font-bold text-kid-purple flex items-center gap-1">
+                          <Trophy className="w-5 h-5" />
+                          <span>{record.score}점</span>
+                        </div>
                       </div>
+                      
+                      {record.reward ? (
+                        <div className={`px-4 py-2 rounded-full flex items-center gap-1 ${
+                          record.rewardClaimed 
+                            ? 'bg-kid-teal/10 text-kid-teal' 
+                            : 'bg-kid-yellow/10 text-kid-text'
+                        }`}>
+                          {record.rewardClaimed ? (
+                            <>
+                              <Coins className="w-5 h-5 text-kid-yellow fill-kid-yellow" />
+                              <span>{record.reward}원 획득완료</span>
+                            </>
+                          ) : (
+                            <button 
+                              onClick={() => claimReward(index)}
+                              disabled={claimingIndex !== null}
+                              className="flex items-center gap-1 font-bold text-kid-yellow hover:text-kid-yellow/80 transition-colors focus:outline-none"
+                            >
+                              <Coins className="w-5 h-5" />
+                              <span>{record.reward}원 획득하기</span>
+                            </button>
+                          )}
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </div>
@@ -123,6 +237,14 @@ export function ScoreHistoryView({ onBack }: ScoreHistoryViewProps) {
                 ? `지금까지 총 ${history.length}번의 퀴즈를 풀었어요!`
                 : '아직 기록이 없어요. 첫 번째 퀴즈를 시작해 보세요!'}
             </p>
+            {history.length > 0 && (
+              <p className="text-kid-yellow flex items-center gap-1 mt-2">
+                <Coins className="w-5 h-5" />
+                <span>
+                  총 {history.reduce((sum, record) => sum + (record.rewardClaimed ? record.reward || 0 : 0), 0)}원의 용돈을 획득했어요!
+                </span>
+              </p>
+            )}
           </div>
         </div>
       </div>

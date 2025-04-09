@@ -1,6 +1,7 @@
 import React from 'react';
 import { BookOpen, ArrowLeft, History, Star, Award, Crown } from 'lucide-react';
 import { QuizLevel } from '../types';
+import { SoundControl } from './SoundControl';
 
 interface QuizLevelSelectorProps {
   onSelectLevel: (level: QuizLevel) => void;
@@ -10,6 +11,9 @@ interface QuizLevelSelectorProps {
 export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSelectorProps) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-kid-bg confetti-bg font-kid relative overflow-hidden">
+      {/* 사운드 컨트롤 */}
+      <SoundControl />
+      
       {/* 캐릭터 이미지 배경 */}
       <div className="absolute -left-8 bottom-0 w-1/4 h-auto z-0 opacity-85">
         <img src="./image/hero/hero-1.png" alt="캐릭터 1" className="object-contain" />

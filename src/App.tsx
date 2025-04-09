@@ -44,11 +44,27 @@ function App() {
   };
 
   const handleQuizComplete = (finalScore: number) => {
+    // 용돈 보상 계산
+    const questionsCount = level === 1 || level === 3 ? 5 : 10;
+    let reward = 0;
+    
+    switch (level) {
+      case 1:
+      case 2:
+        reward = Math.round(finalScore / (100 / questionsCount)) * 50; // 맞힌 문제 * 50원
+        break;
+      case 3:
+        reward = Math.round(finalScore / 10) * 100; // 맞힌 문제 * 100원
+        break;
+    }
+
     const newRecord: ScoreHistory = {
       id: crypto.randomUUID(),
       level: level!,
       score: finalScore,
       date: new Date().toISOString(),
+      reward: reward,
+      rewardClaimed: false
     };
 
     // Save to local storage
@@ -65,6 +81,11 @@ function App() {
     setShowHistory(false);
   };
 
+  const handleReplay = (selectedLevel: QuizLevel) => {
+    setLevel(selectedLevel);
+    setScore(null);
+  };
+
   const handleViewHistory = () => {
     setShowHistory(true);
   };
@@ -74,14 +95,30 @@ function App() {
   }
 
   if (score !== null) {
-    return <Results score={score} onRestart={handleRestart} onBack={handleBack} />;
+    // 마지막으로 완료한 퀴즈의 정보를 가져옵니다
+    const savedHistory = localStorage.getItem('quizHistory');
+    const histories = savedHistory ? JSON.parse(savedHistory) : [];
+    const latestQuiz = histories.length > 0 ? histories[0] : null;
+    const reward = latestQuiz?.reward || 0;
+    
+    return <Results 
+      score={score} 
+      reward={reward}
+      level={level as number}
+      onRestart={handleRestart}
+      onReplay={handleReplay}
+      onBack={handleBack}
+      onViewHistory={handleViewHistory}
+    />;
   }
 
   if (level === null) {
     return <QuizLevelSelector onSelectLevel={handleLevelSelect} onViewHistory={handleViewHistory} />;
   }
 
-  return <Quiz level={level} onComplete={handleQuizComplete} onBack={handleBack} />;
+  return (
+    <Quiz level={level} onComplete={handleQuizComplete} onBack={handleBack} />
+  );
 }
 
 export default App;

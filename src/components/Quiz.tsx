@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { QuizLevel, QuizState, SajaEntry } from '../types';
+import { QuizLevel, QuizState, SajaEntry, SoundType } from '../types';
 import sajaData from '../data/saja.json';
+import { playSound } from '../utils/sounds';
+import { SoundControl } from './SoundControl';
 
 interface QuizProps {
   level: QuizLevel;
@@ -174,6 +176,13 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
     setSelectedAnswer(answer);
     setIsCorrect(correct);
 
+    // 정답/오답 사운드 재생
+    if (correct) {
+      playSound(SoundType.CORRECT);
+    } else {
+      playSound(SoundType.WRONG, 0.5); // 오답은 볼륨 낮게
+    }
+
     // Wait for animation
     await new Promise(resolve => setTimeout(resolve, correct ? 1000 : 3000));
 
@@ -207,6 +216,13 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
     
     setSelectedAnswer(answer);
     setIsCorrect(correct);
+
+    // 정답/오답 사운드 재생
+    if (correct) {
+      playSound(SoundType.CORRECT);
+    } else {
+      playSound(SoundType.WRONG, 0.5); // 오답은 볼륨 낮게
+    }
 
     // 틀린 경우 힌트를 정답으로 변경
     if (!correct) {
@@ -245,6 +261,9 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-kid-bg/50 to-kid-bg py-8 font-kid relative overflow-hidden">
+      {/* 사운드 컨트롤 */}
+      <SoundControl />
+      
       <div className="w-full max-w-[1280px] mx-auto px-4 relative z-10">
         <div className="kid-card bg-white p-6 rounded-2xl border-4 border-kid-yellow shadow-xl">
           <div className="flex justify-between items-center mb-6">

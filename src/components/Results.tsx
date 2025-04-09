@@ -1,13 +1,49 @@
-import React from 'react';
-import { Trophy, Star, Home, Sparkles, ArrowLeft } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Trophy, Star, Home, Sparkles, ArrowLeft, Coins } from 'lucide-react';
+import { SoundType } from '../types';
+import { playSound, playScoreSound } from '../utils/sounds';
+import { SoundControl } from './SoundControl';
 
 interface ResultsProps {
   score: number;
+  reward: number;
+  level: number;
   onRestart: () => void;
+  onReplay: (level: number) => void;
   onBack: () => void;
+  onViewHistory: () => void;
 }
 
-export function Results({ score, onRestart, onBack }: ResultsProps) {
+// 동전 컴포넌트
+interface CoinProps {
+  delay: number;
+  size: number;
+  left: string;
+}
+
+const CoinAnimation = ({ delay, size, left }: CoinProps) => {
+  return (
+    <div 
+      className="absolute top-0 animate-fall" 
+      style={{
+        left,
+        animationDelay: `${delay}s`,
+        fontSize: `${size}px`,
+        zIndex: 5
+      }}
+    >
+      <Coins className="text-kid-yellow fill-kid-yellow" />
+    </div>
+  );
+};
+
+export function Results({ score, reward, level, onRestart, onReplay, onBack, onViewHistory }: ResultsProps) {
+  // 컴포넌트 마운트 시 점수에 따른 사운드 재생
+  useEffect(() => {
+    // 점수에 따른 사운드 재생
+    playScoreSound(score);
+  }, [score]);
+
   // 별 이미지를 동적으로 표시하기 위한 함수
   const renderStars = () => {
     // 점수를 100점 만점 기준으로 별 개수를 계산 (최대 5개)
@@ -39,6 +75,9 @@ export function Results({ score, onRestart, onBack }: ResultsProps) {
 
   return (
     <div className="min-h-screen bg-kid-bg confetti-bg flex items-center justify-center font-kid">
+      {/* 사운드 컨트롤 */}
+      <SoundControl />
+      
       <div className="bg-white kid-card p-8 max-w-md w-full mx-4 relative overflow-hidden">
         {/* 배경 장식 요소 */}
         <div className="absolute -top-10 -right-10 w-40 h-40 bg-kid-yellow/20 rounded-full"></div>
@@ -62,12 +101,29 @@ export function Results({ score, onRestart, onBack }: ResultsProps) {
         {/* 점수 표시 */}
         <div className="bg-gradient-to-r from-kid-pink/20 to-kid-purple/20 rounded-xl p-4 my-6">
           <p className="text-xl text-center text-kid-text mb-2">
-            당신의 점수는
+            내 점수는
           </p>
           <p className="text-5xl font-bold text-center text-kid-purple mb-2 flex items-center justify-center gap-2">
             {score}<span className="text-2xl">점</span>
           </p>
         </div>
+        
+        {/* 용돈 보상 표시 */}
+        {reward > 0 && (
+          <div className="bg-gradient-to-r from-kid-yellow/20 to-kid-teal/20 rounded-xl p-4 my-6 cursor-pointer hover:from-kid-yellow/30 hover:to-kid-teal/30 transition-colors"
+               onClick={onViewHistory}>
+            <p className="text-xl text-center text-kid-text mb-2">
+              내 용돈은
+            </p>
+            <p className="text-4xl font-bold text-center text-kid-teal mb-2 flex items-center justify-center gap-2">
+              <Coins className="w-8 h-8 text-kid-yellow fill-kid-yellow" />
+              {reward}<span className="text-2xl">원</span>
+            </p>
+            <p className="text-sm text-center text-kid-text/70 mt-1">
+              기록 보기에서 용돈 획득
+            </p>
+          </div>
+        )}
         
         {/* 별점 표시 */}
         <div className="flex justify-center gap-2 mb-8">
@@ -81,7 +137,7 @@ export function Results({ score, onRestart, onBack }: ResultsProps) {
         {/* 버튼 영역 */}
         <div className="flex flex-col gap-3">
           <button
-            onClick={onRestart}
+            onClick={() => onReplay(level)}
             className="kid-button py-3 bg-kid-green text-white rounded-full hover:bg-kid-green/90 flex items-center justify-center gap-2"
           >
             <Home className="w-5 h-5" />
