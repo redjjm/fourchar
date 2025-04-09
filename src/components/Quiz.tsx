@@ -287,11 +287,13 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
           </div>
 
           <div className="mb-6">
-            <div className="text-center my-4">
-              <p className="text-xl text-kid-text font-bold mb-2 bg-kid-pink/10 py-2 px-4 rounded-xl inline-block">
-                다음 뜻을 가진 사자성어는 무엇일까요?
-              </p>
-            </div>
+            {level === 1 && (
+              <div className="text-center my-4">
+                <p className="text-xl text-kid-text font-bold mb-2 bg-kid-pink/10 py-2 px-4 rounded-xl inline-block">
+                  다음 뜻을 가진 사자성어는 무엇일까요?
+                </p>
+              </div>
+            )}
             <div className="p-4 bg-gradient-to-r from-kid-purple/10 to-kid-teal/10 rounded-xl border-2 border-kid-purple/20 shadow-inner">
               <p className="text-lg text-kid-text">
                 {currentQuestion.meaning}
