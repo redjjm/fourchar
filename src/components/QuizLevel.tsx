@@ -29,7 +29,7 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
         <div className="text-center mb-1 animate-float">
           <div className="w-24 h-24 bg-kid-yellow rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
             {/* <BookOpen className="w-12 h-12 text-kid-text" /> */}
-            <img src="/src/image/title/rin-circle.png" alt="사자성어 퀴즈" className="w-24 h-24 text-kid-text" />
+            <img src="./image/title/rin-circle.png" alt="사자성어 퀴즈" className="w-24 h-24 text-kid-text" />
           </div>
           {/* <img src="/src/image/title/title-small.png" alt="사자성어 퀴즈" className="mx-auto mb-2 w-36 h-36" /> */}
           <p className="text-2xl text-kid-text">사자성어 퀴즈</p>
@@ -75,7 +75,7 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
             </div>
             <div className="text-left">
               <h2 className="text-2xl font-bold text-kid-purple mb-1">Level 3</h2>
-              <p className="text-kid-text">어려움 · 주관식 · 5문제</p>
+              <p className="text-kid-text">어려움 · 주관식 · 5문</p>
             </div>
           </button>
 

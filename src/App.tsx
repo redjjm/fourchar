@@ -9,6 +9,18 @@ function App() {
   const [level, setLevel] = useState<QuizLevel | null>(null);
   const [score, setScore] = useState<number | null>(null);
   const [showHistory, setShowHistory] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // 로딩 화면을 1초 동안 표시
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
 
   const handleBack = useCallback(() => {
     setLevel(null);
@@ -89,6 +101,30 @@ function App() {
   const handleViewHistory = () => {
     setShowHistory(true);
   };
+
+  // 로딩 화면 표시
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-kid-bg flex items-center justify-center">
+        <div className="text-center animate-bounce">
+          <img 
+            src="./image/title/rin-circle.png" 
+            alt="사자성어 퀴즈" 
+            className="mx-auto w-64 h-auto shadow-lg rounded-xl"
+            style={{ 
+              animation: 'fadeIn 0.5s ease-in',
+            }}
+          />
+          <style jsx>{`
+            @keyframes fadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+          `}</style>
+        </div>
+      </div>
+    );
+  }
 
   if (showHistory) {
     return <ScoreHistoryView onBack={handleBack} />;
