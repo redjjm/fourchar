@@ -65,7 +65,12 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
 
   const totalQuestions = level === 1 || level === 3 ? 5 : 10;
   const optionsCount = level === 1 ? 2 : level === 2 ? 4 : 0;
-  const pointsPerQuestion = level === 3 ? 10 : 100 / totalQuestions; // Level 3은 각 문제당 10점
+  const pointsPerQuestion = 100 / totalQuestions; // 모든 레벨에서 똑같이 100점 만점 기준으로 계산
+
+  // 레벨 별 시작 시 점수 초기화
+  useEffect(() => {
+    setCurrentScore(0);
+  }, [level]);
 
   useEffect(() => {
     const shuffledData = shuffleArray(sajaData);
@@ -179,6 +184,7 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
     // 정답/오답 사운드 재생
     if (correct) {
       playSound(SoundType.CORRECT);
+      setCurrentScore(prev => prev + pointsPerQuestion); // 현재 보여지는 점수 업데이트
     } else {
       playSound(SoundType.WRONG, 0.5); // 오답은 볼륨 낮게
     }
@@ -190,7 +196,7 @@ export function Quiz({ level, onComplete, onBack }: QuizProps) {
     const newAnswers = [...state.answers, answer];
 
     if (state.currentQuestion + 1 >= totalQuestions) {
-      onComplete(Math.round(newScore));
+      onComplete(Math.round(correct ? currentScore + pointsPerQuestion : currentScore));
     } else {
       const allWords = sajaData.map(item => item.idiom);
       const nextOptions = generateOptions(

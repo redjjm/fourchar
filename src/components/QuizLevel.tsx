@@ -27,11 +27,11 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
       
       <div className="w-full max-w-[1280px] mx-auto px-4 relative z-10">
         <div className="text-center mb-1 animate-float">
-          {/* <div className="w-24 h-24 bg-kid-yellow rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+          <div className="w-24 h-24 bg-kid-yellow rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
             <BookOpen className="w-12 h-12 text-kid-text" />
-          </div> */}
-          <img src="/src/image/title/title-small.png" alt="사자성어 퀴즈" className="mx-auto mb-2 w-36 h-36" />
-          {/* <p className="text-2xl text-kid-text"> 풀어보세요!</p> */}
+          </div>
+          {/* <img src="/src/image/title/title-small.png" alt="사자성어 퀴즈" className="mx-auto mb-2 w-36 h-36" /> */}
+          <p className="text-2xl text-kid-text"> 풀어보세요!</p>
           
         </div>
         
