@@ -32,7 +32,7 @@ export function QuizLevelSelector({ onSelectLevel, onViewHistory }: QuizLevelSel
             <img src="/src/image/title/rin-circle.png" alt="사자성어 퀴즈" className="w-24 h-24 text-kid-text" />
           </div>
           {/* <img src="/src/image/title/title-small.png" alt="사자성어 퀴즈" className="mx-auto mb-2 w-36 h-36" /> */}
-          {/* <p className="text-2xl text-kid-text">용돈을 모아보자</p> */}
+          <p className="text-2xl text-kid-text">사자성어 퀴즈</p>
           
         </div>
         
